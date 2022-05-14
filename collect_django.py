@@ -2,10 +2,7 @@ import builtins
 import os
 import sys
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Tuple, Type, List
-
-from django.db.models import Model
-from libcst.codemod import CodemodContext, transform_module, TransformFailure, diff_code
+from typing import TYPE_CHECKING, Tuple
 
 if TYPE_CHECKING:
     from django.apps.registry import Apps  # noqa: F401
