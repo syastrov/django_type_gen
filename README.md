@@ -15,8 +15,12 @@ Please note:
    If you have side effects from initializing Django and/or your 
    modules, then take caution or this project might not be for you.
 
-Please first install libcst into your project's Python environment:
+Please first install libcst into your project's Python environment (note: it):
+
 `pip3 install libcst==0.4.1`
+
+> Note: This specific version of libcst does not have issues with the `FullyQualifiedNameProvider`.
+> I believe the problem will be fixed in a future release. See https://github.com/Instagram/LibCST/pull/867
 
 Clone this project into a subfolder of your project.
 
@@ -29,7 +33,8 @@ modules:
 - 'django_type_gen.commands'
 ```
 
-Run the codemod on your project, passing in the relevant files which might contain Django models:
+Run the codemod on your project, passing in the relevant files which might contain Django models (e.g. all `models.py` files or `*/models/*.py` files):
+
 `python3 -m libcst.tool codemod django_type_gen.AddTypesToDjangoModels $(find . -name 'models.py' -o \( -wholename '*/models/*.py' \)) --no-format`
 
 You will notice that type annotations have been added to your `.py` source files.
