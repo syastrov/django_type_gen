@@ -109,6 +109,7 @@ class AddTypesToDjangoModels(VisitorBasedCodemodCommand):
             typing_only_statements = sorted(set(typing_only_statements))
             typing_only_statements.extend([f"{annotation.name}: {annotation.annotation}" for annotation in
                                       model_metadata.typing_only_annotations])
+            generated_body.append(cst.parse_statement('from typing import TYPE_CHECKING'))
             statement = cst.parse_statement("\n".join([f"if TYPE_CHECKING:", *["\t" + statement for statement in typing_only_statements]]))
             generated_body.append(statement)
 

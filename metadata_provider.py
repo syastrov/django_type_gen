@@ -102,7 +102,8 @@ class DjangoMetadataProvider(BatchableMetadataProvider[Dict[str, List[ModelMetad
         module = list(qualified_module)[0].name
         root_path, models_metadata_by_module = self.cache
         base_module = root_path.replace("/", ".") + "."
-        module = module.removeprefix(base_module)
+        if module.startswith(base_module):
+            module = module[len(base_module):]
         if module in models_metadata_by_module:
             models_metadata = models_metadata_by_module[module]
             self.set_metadata(node, models_metadata)
