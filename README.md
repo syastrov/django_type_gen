@@ -20,6 +20,15 @@ Please first install libcst into your project's Python environment:
 
 Clone this project into a subfolder of your project.
 
+Create a `.libcst.codemod.yaml` file in your project's root.
+It should at least contain the following:
+```yaml
+modules:
+# List of modules that contain codemods inside of them.
+- 'libcst.codemod.commands'
+- 'django_type_gen.commands'
+```
+
 Run the codemod on your project, passing in the relevant files which might contain Django models:
 `python3 -m libcst.tool codemod django_type_gen.AddTypesToDjangoModels $(find . -name 'models.py' -o \( -wholename '*/models/*.py' \)) --no-format`
 
