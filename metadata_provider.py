@@ -8,12 +8,6 @@ from libcst.metadata import FullyQualifiedNameProvider, QualifiedName
 from django_type_gen.collect_django import initialize_django
 
 
-class DeconstructedField(NamedTuple):
-    name: str
-    path: str
-    args: list
-    kwargs: dict
-
 
 ImportDep = Tuple[str, Optional[str]]
 
@@ -63,8 +57,6 @@ class DjangoMetadataProvider(BatchableMetadataProvider[Dict[str, List[ModelMetad
                 # Add "_id" fields for ForeignKeys
                 for field in model_cls._meta.get_fields(include_parents=False):
                     # See for logic: https://github.com/typeddjango/django-stubs/blob/8fe2bd4b9b6c6b13d893d33eddb12b9118d5aa94/mypy_django_plugin/transformers/models.py#L320
-
-                    # print(field, field.__dict__)
                     if isinstance(field, models.Field):
                         if field.attname != field.name:
                             # TODO: Get actual PK type of field.remote_field
@@ -72,9 +64,7 @@ class DjangoMetadataProvider(BatchableMetadataProvider[Dict[str, List[ModelMetad
                             full_field_type = field_type if not field.null else f"Optional[{field_type}]"
                             annotations.append(
                                 TypeAnnotation(field.attname, full_field_type, imports_needed=[("typing", "Optional")]))
-                            # print(field.attname, field)
                     if isinstance(field, models.ForeignObjectRel):
-                        # print(field.name, field.remote_field, field)
                         attname = field.get_accessor_name()
                         if attname is None:
                             # TODO: Also check if name is already defined in class, then it should also be skipped
@@ -135,8 +125,4 @@ def full_qualname(cls: Type[object]) -> str:
 
 def get_primary_key_field(model_cls: "Type[Model]") -> "Field":
     from django.db.models import Field
-    for field in model_cls._meta.get_fields():
-        if isinstance(field, Field):
-            if field.primary_key:
-                return field
-    raise ValueError("No primary key defined")
+    return next(field for field in model_cls._meta.get_fields() if isinstance(field, Field) and field.primary_key)

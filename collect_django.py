@@ -1,3 +1,15 @@
+# This code is extracted from django-stubs project: https://github.com/typeddjango/django-stubs/
+# That project has the following copyright notice:
+#
+# Copyright (c) Maxim Kurnikov.
+# All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 import builtins
 import os
 import sys
@@ -34,6 +46,7 @@ def initialize_django(settings_module: str) -> Tuple["Apps", "LazySettings"]:
 
         models.QuerySet.__class_getitem__ = classmethod(noop_class_getitem)  # type: ignore
         models.Manager.__class_getitem__ = classmethod(noop_class_getitem)  # type: ignore
+        models.ForeignKey.__class_getitem__ = classmethod(noop_class_getitem)  # type: ignore
 
         # Define mypy builtins, to not cause NameError during setting up Django.
         # TODO: temporary/unpatch
@@ -55,34 +68,3 @@ def initialize_django(settings_module: str) -> Tuple["Apps", "LazySettings"]:
     assert settings.configured
 
     return apps, settings
-
-
-# DJANGO_SETTINGS_MODULE = os.getenv("DJANGO_SETTINGS_MODULE")
-# apps, settings = initialize_django(DJANGO_SETTINGS_MODULE)
-#
-# models: List[Type[Model]] = apps.get_models()
-# # models = [models[-90]]
-#
-# models_by_module = {}
-# for model in models:
-#     models_by_module.setdefault(model.__module__, []).append(model)
-#
-# for module, models_in_module in models_by_module.items():
-#     # f = m._meta.get_fields()[12]
-#     # print(f.remote_field.model)
-#     py_filename = module.replace(".", "/") + ".py"
-#     with open(py_filename) as f:
-#         code = f.read()
-#     context = CodemodContext(filename=py_filename, full_module_name=module)
-#
-#     transformer = ModelClassTransformCommand(context, models_in_module=models_in_module)
-#     response = transform_module(transformer, code)
-#     if isinstance(response, TransformFailure):
-#         print(response.error)
-#     else:
-#         print(diff_code(code, response.code, context=2, filename=py_filename))
-#         # print(response.code)
-#     # modified_tree = source_tree.visit(transformer)
-#     # print(modified_tree.code)
-#
-# # breakpoint()
