@@ -44,3 +44,22 @@ time, but that is up to you.
 Then you can, for example, run the `pyright` type-checker on your project.
 
 Note: You will have to rerun the codemod any time you change your models to regenerate the type annotations.
+
+
+# Limitations
+
+There are (probably) many. See also TODOs in the code.
+
+# Future thoughts
+
+It would be ideal if the generated type annotations could live outside of your source files
+(so you would not have to commit them to version control, and so they would not clutter your code).
+
+Ideally, there would be a way of specifying "overlay" stub files, which would augment the code in some way.
+Something like this has been discussed on the typing-sig mailing list:
+https://mail.python.org/archives/list/typing-sig@python.org/thread/UOIVXOJA2PIEYF3XB37HBI2MAJ4XYNUI/
+
+-----
+
+Finally, it would be nice if there was a watcher which would invoke the codemod whenever your models changed,
+which would ease development.
