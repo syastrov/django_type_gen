@@ -1,6 +1,12 @@
 # django_type_gen
 Generate static type annotations for Django models in .py source files for Django projects, using libcst
 
+Right now, it can add to your models:
+- `id` annotation (it currently assumes it's an int)
+- `pk` annotation
+- `FK_id` annotation for foreign keys
+- Annotations for `RelatedManager`s for the reverse accessors for foreign keys
+
 This is a proof-of-concept and is by no means production ready. Use at your own risk.
 
 The idea is that this will essentially add all the type annotations that you would ordinarily have to add manually
