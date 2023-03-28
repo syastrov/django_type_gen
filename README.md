@@ -15,12 +15,6 @@ if you were using the Django type stubs from https://github.com/sbdchd/django-ty
 This means that you will be able to get static type-checking support for Django's "magic", for type-checkers other than
 mypy (or with mypy, but without using any mypy plugins).
 
-Please note:
-1. You must have the environment variable `DJANGO_SETTINGS_MODULE` set
-2. Your code will be executed in order to gather data about your Django models from the model registry.
-   If you have side effects from initializing Django and/or your 
-   modules, then take caution or this project might not be for you.
-
 Please first install libcst into your project's Python environment (note: it):
 
 `pip3 install libcst==0.4.1`
@@ -38,6 +32,12 @@ modules:
 - 'libcst.codemod.commands'
 - 'django_type_gen.commands'
 ```
+
+Please note: You must have the environment variable `DJANGO_SETTINGS_MODULE` set
+
+**WARNING: Your code will be executed in order to gather data about your Django models from the model registry.
+   If you have side effects from initializing Django and/or your 
+   modules, then take caution or this project might not be for you.**
 
 Run the codemod on your project, passing in the relevant files which might contain Django models (e.g. all `models.py` files or `*/models/*.py` files):
 
